@@ -2,6 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const request = require("request");
 const https = require("https")
+require("dotenv").config();
 
 const app = express();
 app.use(express.static('public'))
@@ -31,11 +32,11 @@ app.post("/", function(req, res) {
 
     const jsonData = JSON.stringify(data);
 
-    const url = "https://us21.api.mailchimp.com/3.0/lists/6c0f7cc52d";
+    const url = process.env.URL;
 
     const options = {
       method: "POST",
-      auth: "aniket:bdadad0e4e5ac7add4e78593119aab78-us21",
+      auth: process.env.API_KEY,
     };
 
     const request = https.request(url, options, function (response) {
@@ -60,7 +61,7 @@ app.post('/failure', function(req, res) {
 })
 
 
-app.listen(process.env.PORT, function() {
+app.listen(process.env.PORT || 3000, function() {
     console.log("Server is listening on port 3000")
 })
 
